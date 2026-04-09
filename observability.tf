@@ -38,5 +38,5 @@ resource "helm_release" "prometheus_stack" {
     value = "true"
   }
 
-  depends_on = [module.eks]
+  depends_on = [module.eks, kubernetes_namespace.monitoring]
 }

@@ -13,6 +13,8 @@ resource "helm_release" "metrics_server" {
     name  = "args"
     value = "{--kubelet-insecure-tls}"
   }
+
+  depends_on = [module.eks]
 }
 
 ################################################################################
@@ -70,6 +72,8 @@ resource "helm_release" "lb_controller" {
     name  = "region"
     value = var.aws_region
   }
+
+  depends_on = [module.eks]
 }
 
 ################################################################################
@@ -118,4 +122,6 @@ resource "helm_release" "cluster_autoscaler" {
     name  = "rbac.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
     value = module.cluster_autoscaler_role.iam_role_arn
   }
+
+  depends_on = [module.eks]
 }
