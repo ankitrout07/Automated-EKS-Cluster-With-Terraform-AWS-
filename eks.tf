@@ -5,6 +5,19 @@ module "eks" {
   cluster_name    = var.cluster_name
   cluster_version = "1.30"
 
+  cluster_addons = {
+    vpc-cni = {
+      most_recent    = true
+      before_compute = true
+      configuration_values = jsonencode({
+        env = {
+          ENABLE_PREFIX_DELEGATION = "true"
+          WARM_PREFIX_TARGET       = "1"
+        }
+      })
+    }
+  }
+
   # Network mapping
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
